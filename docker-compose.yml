@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  nginx:
+    container_name: cookiebox-nginx
+    image: library/nginx:latest
+    ports:
+      - 80:80
+    links:
+      - phpfpm
+    volumes:
+      - ./vhosts:/etc/nginx/conf.d
+      - ./logs/nginx:/var/log/nginx
+      - ./src:/usr/share/nginx/html
+
+  phpfpm:
+    image: devilbox/php-fpm-7.4
+    container_name: cookiebox-php
+    ports:
+      - 9000:9000
+    volumes:
+      - ./src:/usr/share/nginx/html
